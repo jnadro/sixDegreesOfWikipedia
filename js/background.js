@@ -1,7 +1,7 @@
 chrome.webRequest.onResponseStarted.addListener(function(object) {
 	//If this a request to the main frame
 	if (object.type == "main_frame") {
-		
+
 		//If we have not created local storage for this set of breadcrumbs.
 		if (!localStorage[object.tabId]) {
 			//Create a new one.
@@ -24,17 +24,22 @@ chrome.webRequest.onResponseStarted.addListener(function(object) {
 		localStorage[object.tabId] = JSON.stringify(breadcrumbs);
 	}
 },
-//Filters
+//Filters - Only care about wikipedia.
 {
 urls: [
   "http://*.wikipedia.org/*",
 ]
 });
 
+//When a tab is closed clear out the local storage data for it.
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+	localStorage.removeItem(tabId);
+});
+
+//Listen for requests from the content script for the breadcrumbs.
 chrome.extension.onMessage.addListener(function(request,sender,sendResponse) {
 
 	if (request.message == "breadcrumbs") {
-		console.log(JSON.parse(localStorage[sender.tab.id]));
 		sendResponse(JSON.parse(localStorage[sender.tab.id]));
 	}
 });
