@@ -13,13 +13,16 @@ $(document).ready(function () {
 
 			// If this is the last breadcrumb just add the
 			// title.
+			var htmlString;
 			if (index == (breadcrumbs.length - 1)) {
-				$("li").last().html(breadcrumb[1].title);
+				htmlString = breadcrumb[1].title;
 			}
 			else {
 				// Add a link to the breadcrumb along with a divider if we are not the last breadcrumb.
-				$("li").last().html('<a href="' + breadcrumb[0].url + '">' + breadcrumb[1].title + '</a> <span class="divider">/</span>');
+				htmlString = '<a href="' + breadcrumb[0].url + '">' + breadcrumb[1].title + '</a> <span class="divider">/</span>';
 			}
+
+			$("li").last().html(htmlString);
 		});
 
 		// Mark the last breadcrumb as active.

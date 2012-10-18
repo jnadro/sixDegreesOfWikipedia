@@ -40,6 +40,7 @@ chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
 chrome.extension.onMessage.addListener(function(request,sender,sendResponse) {
 
 	if (request.message == "breadcrumbs") {
+		//Grab the breadcrumbs for the requesting tab and send it along.
 		sendResponse(JSON.parse(localStorage[sender.tab.id]));
 	}
 });
