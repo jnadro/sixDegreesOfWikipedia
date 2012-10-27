@@ -16,9 +16,10 @@ chrome.webRequest.onResponseStarted.addListener(function(object) {
 		//and end up with...
 		//Minimum viable product
 		var splitURL = object.url.split('/');
-		var wikiTitle = splitURL[splitURL.length - 1].replace('_', ' ');
+		var wikiTitle = splitURL[splitURL.length - 1];
+		var cleanTitle = wikiTitle.split('_').join(' ');
 
-		breadcrumbs.push([{url: object.url}, {title: wikiTitle}]);
+		breadcrumbs.push([{url: object.url}, {title: cleanTitle}]);
 
 		//Save current breadcrumbs to local storage.
 		localStorage[object.tabId] = JSON.stringify(breadcrumbs);
